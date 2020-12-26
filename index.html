@@ -1,0 +1,313 @@
+﻿<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {font-family: Arial, Helvetica, sans-serif;}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  position: relative;
+  background-color: #fefefe;
+  margin: auto;
+  padding: 0;
+  border: 1px solid #888;
+  width: 80%;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+  from {top:-300px; opacity:0} 
+  to {top:0; opacity:1}
+}
+
+@keyframes animatetop {
+  from {top:-300px; opacity:0}
+  to {top:0; opacity:1}
+}
+
+/* The Close Button */
+.close {
+  color: white;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-header {
+  padding: 2px 16px;
+  background-color: #5cb85c;
+  color: white;
+}
+
+.modal-body {padding: 2px 16px;}
+
+.modal-footer {
+  padding: 2px 16px;
+  background-color: #5cb85c;
+  color: white;
+}
+</style>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+<script>
+function GetURLParameter(sParam)
+{
+    var sPageURL = window.location.search.substring(1);
+    var sURLVariables = sPageURL.split('&');
+    for (var i = 0; i < sURLVariables.length; i++) 
+    {
+        var sParameterName = sURLVariables[i].split('=');
+        if (sParameterName[0] == sParam) 
+        {
+            return sParameterName[1];
+        }
+    }
+}
+
+</script>
+  <script>
+  const Http = new XMLHttpRequest();
+  const parameterval = GetURLParameter("id");
+const url='http://localhost:5770?id=' + parameterval;
+Http.open("GET", url);
+Http.send();
+
+Http.onreadystatechange = (e) => {
+  var obj = JSON.parse(Http.responseText);
+ var DIST = document.getElementById("DIST");
+  
+ DIST.innerHTML  = obj.recordsets[0][0].DISTRLINECODE;
+ }
+  </script>
+    <script>
+function setVals(pal){
+const Http = new XMLHttpRequest();
+const url='http://localhost:5770?id=701191212';
+Http.open("GET", url);
+Http.send();
+
+Http.onreadystatechange = (e) => {
+ var obj = JSON.parse(Http.responseText); 
+//console.log(obj.recordsets[0][1]);
+
+ var DIST = document.getElementById("DIST");
+  
+ DIST.innerHTML  = obj.recordsets[0][0].DISTRLINECODE;
+ let pal1content = obj.recordsets[0].find(el => el.BAL_PALLET_ARRANG === pal & el.BAL_CUSTPALNUM === 1 );
+ let pal2content = obj.recordsets[0].find(el => el.BAL_PALLET_ARRANG === pal & el.BAL_CUSTPALNUM === 2 );
+ let pal3content = obj.recordsets[0].find(el => el.BAL_PALLET_ARRANG === pal & el.BAL_CUSTPALNUM === 3 );
+ let pal4content = obj.recordsets[0].find(el => el.BAL_PALLET_ARRANG === pal & el.BAL_CUSTPALNUM === 4 );
+ console.log(pal2content);
+ var PAL1 = document.getElementById("PAL1");
+ PAL1.innerHTML  = pal1content["BAL_PALLET_ARRANG"];
+ /*sumpal*/
+ var sumpal = document.getElementById("sumpal");
+ sumpal.innerHTML  =  (pal1content=== undefined ?  "" : pal1content["BAL_PALNUMPACK"]);
+  /*1*/
+   var PAL1CUST1 = document.getElementById("PAL1CUST1");
+  PAL1CUST1.innerHTML  = (pal1content=== undefined ?  "" : pal1content["CUSTDES"])  ;
+
+   var BOXPAL1 = document.getElementById("BOXPAL1");
+  BOXPAL1.innerHTML  = (pal1content === undefined ?  "" : pal1content["BAL_NUMPACK"]) ;
+  
+  /*2*/
+  
+  
+  var PAL1CUST2 = document.getElementById("PAL1CUST2");
+  PAL1CUST2.innerHTML  = (pal2content=== undefined ?  "" : pal2content["CUSTDES"])  ;
+
+   var BOXPAL2 = document.getElementById("BOXPAL2");
+  BOXPAL2.innerHTML  = (pal2content === undefined ?  "" : pal2content["BAL_NUMPACK"]) ;
+  /*3*/
+  
+  
+  var PAL1CUST3 = document.getElementById("PAL1CUST3");
+  PAL1CUST3.innerHTML  = (pal3content=== undefined ?  "" : pal3content["CUSTDES"])  ;
+
+   var BOXPAL3 = document.getElementById("BOXPAL3");
+  BOXPAL3.innerHTML  = (pal3content === undefined ?  "" : pal3content["BAL_NUMPACK"]) ;
+   /*4*/
+  
+  
+  var PAL1CUST4 = document.getElementById("PAL1CUST4");
+  PAL1CUST4.innerHTML  = (pal4content=== undefined ?  "" : pal4content["CUSTDES"])  ;
+
+   var BOXPAL4 = document.getElementById("BOXPAL4");
+  BOXPAL4.innerHTML  = (pal4content === undefined ?  "" : pal4content["BAL_NUMPACK"]) ;
+  
+}
+}
+</script>
+    
+<head>
+<style>
+
+
+.grid-container {
+  display: grid;
+  grid-template-areas: 'myArea myArea';
+  grid-gap: 10px;
+  background-color: #2196F3;
+  padding: 10px;
+}
+
+.grid-container > div {
+  background-color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  padding: 20px 0;
+  font-size: 30px;
+}
+</style>
+</head>
+<body>
+
+<h1>קו חלוקה <span id= "DIST" >DIST </span>   
+ 
+      </h1>
+
+
+<div class="grid-container">
+  <div class="item1" id="myBtn1"  >1</div> 
+  <div class="item2" id="myBtn2">2</div>
+  <div class="item3" id="myBtn3">3</div>  
+  <div class="item4"id="myBtn4">4</div>
+  <div class="item5" id="myBtn5">5</div>
+  <div class="item6" id="myBtn6">6</div>
+  <div class="item7" id="myBtn7">7</div>
+  <div class="item8" id="myBtn8">8</div>
+  <div class="item9" id="myBtn9">9</div>
+    <div class="item10" id="myBtn10">10</div>
+	
+</div>
+<!-- Trigger/Open The Modal -->
+ 
+
+<!-- The Modal -->
+<div id = "myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <div class="modal-header">
+      <span class="close">&times;</span>
+      <h2>תכולת מצבור מספר    <span id= "PAL1" > </span> </h2>
+    </div>
+    <div class="modal-body">
+
+  
+      
+	 <p >  לקוח מספר 1:   <span id = 'PAL1CUST1' >  </span>  מספר קרטונים: <span id = 'BOXPAL1' >  </span>  </p>
+      <p >  לקוח מספר 2:   <span id = 'PAL1CUST2' >  </span>  מספר קרטונים: <span id = 'BOXPAL2' >  </span>  </p>
+	  <p >  לקוח מספר 3:   <span id = 'PAL1CUST3' >  </span>  מספר קרטונים: <span id = 'BOXPAL3' >  </span>  </p>
+	  <p >  לקוח מספר 4:   <span id = 'PAL1CUST4' >  </span>  מספר קרטונים: <span id = 'BOXPAL4' >  </span>  </p>
+    </div>
+    <div class="modal-footer">
+      <h3>מספר קרטונים כולל  <span id = 'sumpal' >  </span> </h3>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// Get the modal
+var modal = document.getElementById("myModal");
+
+// Get the button that opens the modal
+var btn1 = document.getElementById("myBtn1");
+var btn2 = document.getElementById("myBtn2");
+var btn3 = document.getElementById("myBtn3");
+var btn4 = document.getElementById("myBtn4");
+var btn5 = document.getElementById("myBtn5");
+var btn6 = document.getElementById("myBtn6");
+var btn7 = document.getElementById("myBtn7");
+var btn8 = document.getElementById("myBtn8");
+var btn9 = document.getElementById("myBtn9");
+var btn10 = document.getElementById("myBtn10");
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal 
+btn1.onclick = function() {
+  modal.style.display = "block";
+  setVals(1);
+}
+btn2.onclick = function() {
+  modal.style.display = "block";
+  setVals(2);
+}
+btn3.onclick = function() {
+  modal.style.display = "block";
+  setVals(3);
+}
+btn3.onclick = function() {
+  modal.style.display = "block";
+  setVals(3);
+}
+btn4.onclick = function() {
+  modal.style.display = "block";
+  setVals(4);
+}
+btn5.onclick = function() {
+  modal.style.display = "block";
+  setVals(5);
+}
+btn6.onclick = function() {
+  modal.style.display = "block";
+  setVals(6);
+}
+btn7.onclick = function() {
+  modal.style.display = "block";
+  setVals(7);
+}
+btn8.onclick = function() {
+  modal.style.display = "block";
+  setVals(8);
+}
+btn9.onclick = function() {
+  modal.style.display = "block";
+  setVals(9);
+}
+btn10.onclick = function() {
+  modal.style.display = "block";
+  setVals(10);
+}
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+</script>
+</body>
+</html>
